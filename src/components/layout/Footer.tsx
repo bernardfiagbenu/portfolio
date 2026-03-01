@@ -23,7 +23,7 @@ export default function Footer() {
           </Link>
         </p>
         <p className="text-xs font-body mt-1 text-muted-foreground">
-          Built with Next.js and Tailwind CSS. Hosted on Firebase.
+          Built with Next.js and Tailwind CSS. Hosted on Netlify.
         </p>
       </div>
     </footer>

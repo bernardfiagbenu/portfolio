@@ -1,11 +1,16 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { onAuthStateChanged, User as FirebaseUser, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { createContext, useContext, useState, ReactNode } from 'react';
+
+interface User {
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
+  phoneNumber: string | null;
+}
 
 interface UserContextType {
-  user: FirebaseUser | null;
+  user: User | null;
   loading: boolean;
   logout: () => Promise<void>;
 }
@@ -13,28 +18,12 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Only subscribe to auth state if Firebase is initialized (client-side only)
-    if (!auth) {
-      setLoading(false);
-      return;
-    }
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [user] = useState<User | null>(null);
+  const [loading] = useState(false);
 
   const logout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
-  }
+    // No-op: authentication has been removed
+  };
 
   return (
     <UserContext.Provider value={{ user, loading, logout }}>
