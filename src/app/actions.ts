@@ -1,3 +1,5 @@
+'use server';
+
 import { askAI } from '@/lib/hf';
 
 export async function generateLearningPath(goal: string, currentLevel: string) {

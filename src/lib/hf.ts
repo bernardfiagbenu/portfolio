@@ -1,17 +1,15 @@
-import { createHuggingFace } from '@ai-sdk/huggingface';
-import { generateText, streamText } from 'ai';
+import { HfInference } from '@huggingface/inference';
 
-const huggingface = createHuggingFace({
-    apiKey: process.env.HUGGING_FACE_API_KEY,
-});
-
-export const hfModel = huggingface('mistralai/Mistral-7B-Instruct-v0.2');
+const hf = new HfInference(process.env.HUGGING_FACE_API_KEY);
 
 export async function askAI(prompt: string, systemPrompt?: string) {
-    const { text } = await generateText({
-        model: hfModel,
-        system: systemPrompt,
-        prompt: prompt,
+    const response = await hf.chatCompletion({
+        model: 'mistralai/Mistral-7B-Instruct-v0.3',
+        messages: [
+            ...(systemPrompt ? [{ role: 'system' as const, content: systemPrompt }] : []),
+            { role: 'user' as const, content: prompt },
+        ],
+        max_tokens: 1024,
     });
-    return text;
+    return response.choices[0]?.message?.content || '';
 }
