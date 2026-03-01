@@ -12,6 +12,42 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    title: 'A.I. Learning Path Generator',
+    description: 'An AI-powered tool that generates personalized learning paths based on your goals and current skill level, helping you navigate the complex world of computer science.',
+    imageUrl: 'https://picsum.photos/600/400',
+    tags: ['AI', 'Education', 'Learning', 'Personalization', 'Next.js'],
+    githubUrl: null,
+    liveUrl: '/projects/learning-path-generator',
+    aiHint: 'learning path flowchart'
+  },
+  {
+    title: 'Online Safety Scenario Simulator',
+    description: 'Practice navigating online safety challenges in a safe environment. AI generates realistic scenarios to help users identify and respond to potential threats.',
+    imageUrl: 'https://picsum.photos/600/400',
+    tags: ['AI', 'Cybersecurity', 'Safety', 'Education', 'Next.js'],
+    githubUrl: null,
+    liveUrl: '/projects/online-safety-scenarios',
+    aiHint: 'shield and lock icons'
+  },
+  {
+    title: 'Policy Simulator for Sustainable Cities',
+    description: 'Simulate the impact of various urban policies using AI. See how decisions on transportation, housing, and energy affect a city\'s sustainability goals.',
+    imageUrl: 'https://picsum.photos/600/400',
+    tags: ['AI', 'Sustainability', 'Urban Planning', 'Policy', 'Next.js'],
+    githubUrl: null,
+    liveUrl: '/projects/policy-simulator',
+    aiHint: 'city skyline with toggle switches'
+  },
+  {
+    title: 'Social Impact Challenge Brainstormer',
+    description: 'Brainstorm creative solutions to social challenges with the help of AI. This tool facilitates collaborative ideation for positive social impact.',
+    imageUrl: 'https://picsum.photos/600/400',
+    tags: ['AI', 'Social Impact', 'Innovation', 'Brainstorming', 'Next.js'],
+    githubUrl: null,
+    liveUrl: '/projects/social-impact-challenge',
+    aiHint: 'diverse group of people together'
+  },
+  {
     title: 'Mental Wellbeing Compass for Ghana',
     description: 'A privacy-first demo app offering mental health screening (PHQ-9) and resources, inspired by UN/WHO guidance to provide accessible mental health information specifically for Ghana.',
     imageUrl: 'https://picsum.photos/600/400',

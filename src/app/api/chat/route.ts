@@ -1,9 +1,13 @@
-import { google } from '@ai-sdk/google';
+import { createHuggingFace } from '@ai-sdk/huggingface';
 import { streamText, type CoreMessage } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 export const runtime = 'edge';
+
+const huggingface = createHuggingFace({
+  apiKey: process.env.HUGGING_FACE_API_KEY,
+});
 
 const systemPrompt = `You are Bernard Fiagbenu's expert portfolio assistant. Your name is "Portfolio Pro".
 Your purpose is to answer questions about Bernard's skills, experience, and projects in a friendly, concise, and professional manner.
@@ -45,25 +49,12 @@ export async function POST(req: NextRequest) {
     const { messages }: { messages: CoreMessage[] } = await req.json();
 
     const result = await streamText({
-      model: google('gemini-2.5-flash'), // Updated: Use stable Gemini 2.5 Flash model
+      model: huggingface('mistralai/Mistral-7B-Instruct-v0.2'),
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages,
       ],
-      tools: {
-        getPortfolio: {
-          description: 'Fetch portfolio item details',
-          parameters: z.object({ id: z.string() }),
-          execute: async ({ id }) => ({ name: 'Sample Item', details: 'Streaming fixed with 2.5 Flash' }),
-        },
-      },
-      maxSteps: 5,
-      providerOptions: {
-        google: {
-          apiVersion: 'v1beta',
-          generationConfig: { temperature: 0.7 },
-        },
-      },
+      maxSteps: 3,
     });
 
     return result.toAIStreamResponse({
