@@ -1,10 +1,6 @@
 import { HfInference } from '@huggingface/inference';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'edge';
-
-const hf = new HfInference(process.env.HUGGING_FACE_API_KEY);
-
 const systemPrompt = `You are Bernard Fiagbenu's expert portfolio assistant. Your name is "Portfolio Pro".
 Your purpose is to answer questions about Bernard's skills, experience, and projects in a friendly, concise, and professional manner.
 Do not answer questions that are not related to Bernard's portfolio.
@@ -41,13 +37,24 @@ Based on the context above, answer the following question.
 
 
 export async function POST(req: NextRequest) {
+  const apiKey = process.env.HUGGING_FACE_API_KEY;
+
+  if (!apiKey) {
+    console.error('HUGGING_FACE_API_KEY is not set');
+    return NextResponse.json(
+      { error: 'AI response failed', details: 'API key is not configured. Please set HUGGING_FACE_API_KEY in your environment variables.' },
+      { status: 500 }
+    );
+  }
+
   try {
+    const hf = new HfInference(apiKey);
     const { messages } = await req.json();
 
     // Build conversation for the HF model
     const conversationMessages = [
-      { role: 'system', content: systemPrompt },
-      ...messages.map((m: any) => ({ role: m.role, content: m.content })),
+      { role: 'system' as const, content: systemPrompt },
+      ...messages.map((m: any) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
     ];
 
     // Use HF Inference API for chat completion with streaming
@@ -84,15 +91,11 @@ export async function POST(req: NextRequest) {
     return new Response(readableStream, {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
-        'Transfer-Encoding': 'chunked',
         'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
       },
     });
   } catch (error: any) {
-    console.error('HuggingFace API Error:', {
-      message: error.message,
-    });
+    console.error('HuggingFace API Error:', error.message);
     return NextResponse.json(
       { error: 'AI response failed', details: error.message || 'Unknown error' },
       { status: 500 }
