@@ -4,6 +4,7 @@
 import dynamic from 'next/dynamic';
 import { homePageSketch } from '@/components/p5/HomePageSketch';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import AnimatedHeroHeadline from '@/components/ui/AnimatedHeroHeadline';
 import { Briefcase, Code, GraduationCap, Lightbulb, Mail, Search } from 'lucide-react';
 
 // Dynamically import the P5Sketch component to ensure it's client-side only
@@ -57,14 +58,7 @@ export default function HomePage() {
       <div className="fixed inset-0 z-10 bg-background/60 dark:bg-background/70 backdrop-blur-[2px]"></div>
 
       <div className="relative z-20 container mx-auto px-4 py-12">
-        <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-4">
-            Bernard Fiagbenu
-          </h1>
-          <p className="text-xl md:text-2xl font-body text-muted-foreground max-w-2xl mx-auto">
-            Computer Scientist & Innovator solving challenges through technology.
-          </p>
-        </div>
+        <AnimatedHeroHeadline />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {navigationSections.map((section) => (
